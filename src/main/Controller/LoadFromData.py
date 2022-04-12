@@ -1,4 +1,5 @@
 import os
+import src.main.Controller.WriteInData as wd
 
 def directoryExists(path: str) -> bool:
     # prepare dir creation in not existent
@@ -26,9 +27,9 @@ def fileExists(filePath: str) -> bool:
 def createNewFile(filePath: str) -> bool:
     #create pw file if not existent
     try:
-        open(filePath,'x')
-        print("The directory path {} was created".format(filePath))
-        return True
+        if wd.writeInitalData(filePath):
+            print("The directory path {} was created".format(filePath))
+            return True
     except FileExistsError:
         pass #writeLog
     else:
@@ -37,7 +38,7 @@ def createNewFile(filePath: str) -> bool:
 def loadData() -> bool:
     # starting point of the class
     path = os.environ['HOMEPATH'] + '\\SPArGEl' # get home path
-    fileName = 'entries.txt'
+    fileName = 'entries.csv'
     if directoryExists(path):
         if fileExists(path + '\\' + fileName):
             print("The data and files are ready!")
