@@ -9,3 +9,4 @@ Next TODOs
 2) read data from the database
 3) create database and connect
 4) create gui
+5) create testcases
