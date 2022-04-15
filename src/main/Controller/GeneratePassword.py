@@ -18,6 +18,15 @@ def createCharList(charList, inclUpperCase=bool, inclNumbers=bool, inclSpecialCh
     return charList
 
 def generatePassword(length=int, inclUpperCase=bool,inclNumbers=bool,inclSpecialChars=bool) -> str:
+    """
+    Entry point of the module
+
+    :param length: length of the password
+    :param inclUpperCase: include upper case characters
+    :param inclNumbers: include number characters
+    :param inclSpecialChars: include special characters
+    :return: return as password
+    """
     charList = []
     charList = createCharList(charList,inclUpperCase,inclNumbers,inclSpecialChars)
     return getPassword(charList,length)

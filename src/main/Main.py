@@ -1,4 +1,4 @@
-import Controller.LoadFromData as loadData
+import Controller.InitData as loadData
 import Controller.UserInteraction as uia
 
 
