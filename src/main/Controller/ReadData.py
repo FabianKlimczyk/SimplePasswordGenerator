@@ -9,7 +9,7 @@ def getNumberOfLines() -> int:
     """
     file = initData.getPath(3)
     data = pd.read_csv(file)
-    return len(data)-1
+    return len(data)
 
 
 def getUserInfo(name: str) -> str:

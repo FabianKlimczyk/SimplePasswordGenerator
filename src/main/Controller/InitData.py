@@ -46,7 +46,7 @@ def fileExists(filePath: str) -> bool:
 def createNewFile(filePath: str) -> bool:
     #create pw file if not existent
     try:
-        if wd.writeInitalData(filePath):
+        if wd.writeInitalData():
             print("The directory path {} was created".format(filePath))
             return True
     except FileExistsError:
