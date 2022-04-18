@@ -1,3 +1,14 @@
+'''
+----------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     15-04-22    FKL     Create file
+                            Add functions:
+                            - encode
+                            - decode
+
+'''
+
 cipherAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.;-_!?$%&()+#"
 
 

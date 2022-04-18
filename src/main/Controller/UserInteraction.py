@@ -1,3 +1,18 @@
+'''
+---------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     11-04-22    FKL     Create file
+                            Add functions:
+                            - createEntry
+                            - userLoop
+002     15-04-22    FKL     function:
+                                - createEntry - get necessary information for creation
+003     18-04-22    FKL     add function:
+                                - updateEntry
+
+'''
+
 from src.main.Controller.ReadData import getNumberOfLines
 from src.main.Controller.GeneratePassword import generatePassword as gnrt_pw
 from src.main.Controller.DeEnCoding import encode as encode
@@ -5,6 +20,8 @@ from src.main.Controller.WriteData import writeNewData, writeUpdateByPos
 import src.main.Model.Entry as Entry
 import time
 import random
+
+
 
 def createEntry() -> Entry.Entry:
     """

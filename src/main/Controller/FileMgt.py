@@ -1,7 +1,17 @@
 import os
 
 '''
-This module delivers all information regardings the entries file 
+----------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     18-04-22    FKL     Create file
+                            Add function:
+                                - getPath
+                                - getColumnId
+002     10-04-2022  FKL     Function getPath
+                                - add db path as option 4 
+
+This module delivers all information regarding the entries file 
 '''
 
 def getPath(pathType: int) -> str:
@@ -9,7 +19,7 @@ def getPath(pathType: int) -> str:
         1 -> fileName
         2 -> directory path
         3 -> file path
-        4 -> db pat
+        4 -> db path
     '''
     path = os.environ['HOMEPATH'] + '\\SPArGEl'  # get home path
     fileName = 'entries.csv'

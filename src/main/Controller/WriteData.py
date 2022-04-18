@@ -1,3 +1,29 @@
+'''
+----------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     10-04-22    FKL     Create file
+                            Add functions:
+                                - directoryExists
+                                - createNewDirectory
+                                - fileExists
+                                - createNewFile
+                                - write
+                                - writeData
+002     16-04-22    FKL     Add functions:
+                                - writeNewData
+                                - deleteData
+                                - updateData
+                            Delete functions:
+                                - writeData
+                                - write
+003     18-04-22    FKL     Add functions:
+                                - writeUpdateByPos
+                                - writeUpdateByName
+                            Delete functions:
+                                - updateData
+'''
+
 import csv
 import src.main.Model.Entry as Entry
 from src.main.Controller.FileMgt import getPath, getColumnId

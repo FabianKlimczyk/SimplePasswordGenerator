@@ -1,3 +1,11 @@
+'''
+----------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     06-04-22    FKL     Create file
+002     14-04-22    FKL     - change fieldname password to cipher
+                            - add field shift
+'''
 from dataclasses import dataclass
 import datetime
 

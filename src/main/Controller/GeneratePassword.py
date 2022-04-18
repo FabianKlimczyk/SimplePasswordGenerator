@@ -1,3 +1,17 @@
+'''
+---------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     06-04-22    FKL     Create file
+                            Add functions:
+                                - getPassword
+                                - createCharList
+                                - generatePassword
+002     18-04-22    FKL     Update functions:
+                                - createNewCharList -> remove , from list
+'''
+
+
 import random as rnd
 
 

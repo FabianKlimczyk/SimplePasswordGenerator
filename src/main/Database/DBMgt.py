@@ -1,3 +1,15 @@
+'''
+----------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     18-04-22    FKL     Create file
+                            Add function:
+                                - initDB
+                                - setupTable
+
+This module manages the database connection
+'''
+
 import sqlite3 as sql3
 from src.main.Controller.FileMgt import getPath
 from src.main.Utility.Strings import getString

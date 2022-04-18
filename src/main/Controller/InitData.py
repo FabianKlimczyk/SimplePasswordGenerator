@@ -1,3 +1,18 @@
+'''
+---------------------------------------------------
+[LogNo] [Date]      [Name]  [Description]
+----------------------------------------------------
+001     10-04-22    FKL     Create file
+                            Add functions:
+                                - directoryExists
+                                - createNewDirectory
+                                - fileExists
+                                - createNewFile
+002     15-04-22    FKL     Add function:
+                                - getPath
+'''
+
+
 import os
 import src.main.Controller.WriteData as wd
 from src.main.Controller.FileMgt import getPath
