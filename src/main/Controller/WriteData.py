@@ -1,5 +1,5 @@
 import csv
-import src.main.Database.Entry as Entry
+import src.main.Model.Entry as Entry
 from src.main.Controller.FileMgt import getPath, getColumnId
 
 

@@ -9,10 +9,14 @@ def getPath(pathType: int) -> str:
         1 -> fileName
         2 -> directory path
         3 -> file path
+        4 -> db pat
     '''
     path = os.environ['HOMEPATH'] + '\\SPArGEl'  # get home path
     fileName = 'entries.csv'
-    if pathType == 3:
+    dbname = 'entries.db'
+    if path == 4:
+        return path+"\\"+dbname
+    elif pathType == 3:
         return path+"\\"+fileName
     elif pathType == 2:
         return path

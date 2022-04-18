@@ -2,7 +2,7 @@ from src.main.Controller.ReadData import getNumberOfLines
 from src.main.Controller.GeneratePassword import generatePassword as gnrt_pw
 from src.main.Controller.DeEnCoding import encode as encode
 from src.main.Controller.WriteData import writeNewData, writeUpdateByPos
-import src.main.Database.Entry as Entry
+import src.main.Model.Entry as Entry
 import time
 import random
 
