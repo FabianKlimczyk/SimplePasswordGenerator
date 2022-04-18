@@ -1,24 +1,6 @@
 import os
 import src.main.Controller.WriteData as wd
-
-def getPath(pathType: int) -> str:
-    '''
-        1 -> fileName
-        2 -> directory path
-        3 -> file path
-    '''
-    path = os.environ['HOMEPATH'] + '\\SPArGEl'  # get home path
-    fileName = 'entries.csv'
-    if pathType == 3:
-        return path+"\\"+fileName
-    elif pathType == 2:
-        return path
-    elif pathType == 1:
-        return fileName
-    else:
-        raise Exception("type provided must be 1, 2 or 3 - input: " +str(pathType))
-
-
+from src.main.Controller.FileMgt import getPath
 
 def directoryExists(path: str) -> bool:
     # prepare dir creation in not existent
@@ -26,6 +8,7 @@ def directoryExists(path: str) -> bool:
         return createNewDirectory(path)
     else:
         return True
+
 
 def createNewDirectory(path: str) -> bool:
     # create dir if no existent
@@ -36,12 +19,14 @@ def createNewDirectory(path: str) -> bool:
     else:
         return False
 
+
 def fileExists(filePath: str) -> bool:
     # prepare file creation in not existent
     if not os.path.isfile(filePath):
         return createNewFile(filePath)
     else:
         return True
+
 
 def createNewFile(filePath: str) -> bool:
     #create pw file if not existent
@@ -53,6 +38,7 @@ def createNewFile(filePath: str) -> bool:
         pass #writeLog
     else:
         return False
+
 
 def loadData() -> bool:
     # starting point of the class

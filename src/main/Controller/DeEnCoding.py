@@ -1,4 +1,4 @@
-cipherAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,;-_!?$%&()+#"
+cipherAlphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.;-_!?$%&()+#"
 
 
 def encode(pw: str, shift: int) -> str:

@@ -1,6 +1,6 @@
 import csv
 import src.main.Database.Entry as Entry
-from src.main.Controller.InitData import getPath
+from src.main.Controller.FileMgt import getPath, getColumnId
 
 
 def writeInitalData() -> bool:
@@ -11,8 +11,37 @@ def writeInitalData() -> bool:
     return True
 
 
-def writeUpdate(field: str, text: str):
-    #TODO 1) in case of password, must be different frim old one
+def writeUpdateByPos(pos: int, columnName: str, updateText: str) -> bool:
+    columnIdx = getColumnId(columnName)
+    if columnIdx > 0 and columnIdx < 4:
+        filePath = getPath(3)
+        found = False
+        with open(filePath, 'r') as csvfile:
+            reader = csv.reader(csvfile, delimiter=',')
+            rowIdNo = 0
+            lines = []
+            for line in reader:
+                lines.append(line)
+                if rowIdNo == pos:
+                    # TODO 1) in case of password, must be different from old one
+                    lines[pos][columnIdx] = updateText
+                    found = True
+                rowIdNo += 1
+        if found:
+            with open(filePath, 'w', newline='') as csvfile:
+                filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+                filewriter.writerows(lines)
+            return True
+        else:
+            return False
+    else:
+        # only name, description and cipher can be changed
+        return False
+
+
+def writeUpdateByName(name: str, updateText: str) -> bool:
+    columId = getColumnId("name")
+    #TODO update line of passed name
     pass
 
 
@@ -27,4 +56,5 @@ def writeNewData(entry: Entry.Entry) -> bool:
 
 
 def deleteData(id: int):
+    #TODO delete row with id == id
     pass
