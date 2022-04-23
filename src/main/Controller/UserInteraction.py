@@ -19,6 +19,7 @@ from src.main.Controller.DeEnCoding import encode as encode
 from src.main.Controller.WriteData import writeNewData, writeUpdateByPos
 import src.main.Model.Entry as Entry
 import src.main.Database.DBMgt as db
+import sqlite3 as sql3
 import time
 import random
 
@@ -49,30 +50,27 @@ def createEntry() -> Entry.Entry:
 
 
 def updateEntry() -> bool:
+    #TODO Funktion überflüssig
     id = int(input("In which row do you want to change a field? Please enter the id: ").lower())
     name = input("Which field do you want to chagne? ").lower()
     update = input("What is your new updatedText? ")
     return writeUpdateByPos(id,name,update)
 
 
-
-def userLoop()-> None:
+def userLoop(conn: sql3.Connection) -> None:
     while action := input("What do you want to do? (c)ontinue or (q)uit? Please insert c or q").lower() != "q":
-        inp = input("Do you want to (c)reate, (l)oad or (u)pdate? c/l/u ").lower()
+        inp = input("Do you want to (c)reate, (l)oad, (u)pdate, (d)elete? ").lower()
 
         if inp == "c":
             print("Creating a new entry...")
             entry = createEntry()
-            # old code
-            # writeNewData(entry)
-            # new code
-            db.insertEntry(entry)
+            db.insertEntry(conn, entry)
             print("The entry {} was created".format(entry.name))
-
         elif inp == "l":
             # load and show existent entry
             print("Loading...")
-            data = db.getEntry(True)
+            #TODO abfrgae ob bestimmter record angezeigt werden soll
+            data = db.getEntry(conn, "","")
             for i in data:
                 print(i)
         elif inp == "u":
@@ -80,10 +78,17 @@ def userLoop()-> None:
             name = input("Which record do you want to change? Please enter the name!: ")
             column = input("Which column do you want to change?: ") + "= ?"
             newValue = input("Please enter a new value: ")
-            if db.updateEntry(name,column,newValue):
+            if db.updateEntry(conn, name,column,newValue):
                 print("The entry was updated")
             else:
                 print("Update is not possible. Please try again")
+        elif inp == "d":
+            print("Deleting...")
+            id = input("Which id do you want to delete? ")
+            if db.deleteEntryById(conn, id):
+                print("The entry was deleted")
+            else:
+                print("Deletion is not possible! Please try again.")
         else:
-            print("{} is not a valid input! c/l/u !!!".format(inp))
+            print("{} is not a valid input! c/l/u/d !!!".format(inp))
     print("Program quit!")

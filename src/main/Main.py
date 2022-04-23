@@ -12,11 +12,8 @@ import Controller.UserInteraction as uia
 import Database.DBMgt as db
 
 def main() -> None:
-    # Entry point of the application
-    #loadData.loadData()
-    #print("The database is ready!")
-    db.init_DB()
-    uia.userLoop()
+    connection = db.getDatabaseConnection()
+    uia.userLoop(connection)
 
 
 if __name__ == '__main__':

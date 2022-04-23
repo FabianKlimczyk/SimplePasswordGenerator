@@ -20,11 +20,8 @@ from src.main.Controller.FileMgt import getPath
 from src.main.Utility.Strings import getString
 import src.main.Model.Entry as entry
 
-def setupTables() -> bool:
-    dbfile = getPath(4)
-    connection = sql3.connect(dbfile)
-    crsr = connection.cursor()
-    # Entries Table
+def setupTables(conn: sql3.Connection) -> bool:
+    crsr = conn.cursor()
     qry_create_entries = '''
         CREATE TABLE Entries (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,50 +36,65 @@ def setupTables() -> bool:
         '''
     try:
         crsr.execute(qry_create_entries)
-        connection.commit()
-        connection.close()
+        conn.commit()
         print(getString("db_created", "DE"))
     except Exception as e:
         # Database already exists
         print(getString("db_ready", "DE"))
 
 
-
-def insertEntry(Entry: entry.Entry):
+def insertEntry(conn: sql3.Connection, Entry: entry.Entry):
     #TODO Prüfung ob name bereits vorhanden, verhindern doppelter Einträge
-    dbfile = getPath(4)
-    connection = sql3.connect(dbfile)
-    crsr = connection.cursor()
+    crsr = conn.cursor()
     params = (Entry.name,Entry.login,Entry.description,Entry.cipher,Entry.shift,Entry.created_on,Entry.last_modified_on)
-    qry_insert_entry = '''INSERT INTO Entries VALUES (Null, ?, ?, ?, ?, ?, ?, ?)'''
+    qry_insert_entry = '''
+    INSERT INTO Entries 
+    VALUES (Null, ?, ?, ?, ?, ?, ?, ?)'''
     crsr.execute(qry_insert_entry,params)
-    connection.commit()
+    conn.commit()
 
-def updateEntry(name: str, columnname: str, newValue) -> bool:
+def updateEntry(conn: sql3.Connection, name: str, columnname: str, newValue) -> bool:
     #TODO nur bestimmte Felder dürfen geändert werden
-    dbfile = getPath(4)
-    connection = sql3.connect(dbfile)
-    crsr = connection.cursor()
+    crsr = conn.cursor()
     updateValues = (newValue, name)
-    qry_update_entry = f'''UPDATE Entries SET {columnname} WHERE name = ?'''
+    qry_update_entry = f'''
+        UPDATE Entries 
+        SET {columnname} 
+        WHERE name = ?
+    '''
     crsr.execute(qry_update_entry,updateValues)
-    connection.commit()
+    conn.commit()
     return True
 
-def deleteEntry():
-    #TODO implementieren
-    pass
+def deleteEntryById(conn: sql3.Connection, id: str) -> bool:
+    #TODO return Value in case it is possible or not
+    crsr = conn.cursor()
+    qry_delete_entry = '''
+    DELETE FROM Entries 
+    WHERE id = ?
+    '''
+    crsr.execute(qry_delete_entry, id)
+    conn.commit()
+    return True
 
-def getEntry(all: True) -> any:
+
+def getEntry(conn: sql3.Connection, where: str, value: str) -> any:
     #TODO Ausgabe des Shifts "verpixeln"
-    dbfile = getPath(4)
-    connection = sql3.connect(dbfile)
-    crsr = connection.cursor()
-    qry_select_entry = "SELECT * FROM Entries"
-    data = crsr.execute(qry_select_entry)
+    crsr = conn.cursor()
+    qry_select_entry = '''
+    SELECT * 
+    FROM Entries'''
+    if where != "" and value != "":
+        where += "= ?"
+        qry_select_entry = f'''
+                SELECT * 
+                FROM Entries
+                WHERE {where}'''
+    data = crsr.execute(qry_select_entry, value)
     return data
 
-def init_DB():
-    setupTables()
-
+def getDatabaseConnection() -> sql3.Connection:
+    dbfile = getPath(4)
+    connection = sql3.connect(dbfile)
+    return connection
 
