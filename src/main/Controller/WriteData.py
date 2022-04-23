@@ -44,15 +44,13 @@ def writeUpdateByPos(pos: int, columnName: str, updateText: str) -> bool:
         found = False
         with open(filePath, 'r') as csvfile:
             reader = csv.reader(csvfile, delimiter=',')
-            rowIdNo = 0
             lines = []
-            for line in reader:
+            for index, line in enumerate(reader):
                 lines.append(line)
-                if rowIdNo == pos:
+                if index == pos:
                     # TODO 1) in case of password, must be different from old one
                     lines[pos][columnIdx] = updateText
                     found = True
-                rowIdNo += 1
         if found:
             with open(filePath, 'w', newline='') as csvfile:
                 filewriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)

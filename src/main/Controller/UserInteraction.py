@@ -18,6 +18,7 @@ from src.main.Controller.GeneratePassword import generatePassword as gnrt_pw
 from src.main.Controller.DeEnCoding import encode as encode
 from src.main.Controller.WriteData import writeNewData, writeUpdateByPos
 import src.main.Model.Entry as Entry
+import src.main.Database.DBMgt as db
 import time
 import random
 
@@ -31,6 +32,7 @@ def createEntry() -> Entry.Entry:
 
     # user input
     name = input("Please enter a name!: ")
+    login = input("Please enter your login")
     descr = input("Please enter a description!: ")
     pwLength = int(input("Please enter the password length!: "))
     inclUpperCase = input("Do you want to include upper case letters? y/n ").lower() == "y"
@@ -43,7 +45,7 @@ def createEntry() -> Entry.Entry:
     enc_pw = encode(
             gnrt_pw(pwLength,inclUpperCase,inclNumbers,inclSpecialCharacters),shift
         )
-    return Entry.Entry(id,name,descr,enc_pw,shift,time.time(),time.time())
+    return Entry.Entry(id,name,login,descr,enc_pw,shift,time.time(),time.time())
 
 
 def updateEntry() -> bool:
@@ -59,19 +61,26 @@ def userLoop()-> None:
         inp = input("Do you want to (c)reate, (l)oad or (u)pdate? c/l/u ").lower()
 
         if inp == "c":
-            print("Crating a new entry...")
+            print("Creating a new entry...")
             entry = createEntry()
-            print(entry)
-            writeNewData(entry)
+            # old code
+            # writeNewData(entry)
+            # new code
+            db.insertEntry(entry)
             print("The entry {} was created".format(entry.name))
 
         elif inp == "l":
             # load and show existent entry
-            print("load")
-            pass
+            print("Loading...")
+            data = db.getEntry(True)
+            for i in data:
+                print(i)
         elif inp == "u":
             print("Updating...")
-            if updateEntry():
+            name = input("Which record do you want to change? Please enter the name!: ")
+            column = input("Which column do you want to change?: ") + "= ?"
+            newValue = input("Please enter a new value: ")
+            if db.updateEntry(name,column,newValue):
                 print("The entry was updated")
             else:
                 print("Update is not possible. Please try again")

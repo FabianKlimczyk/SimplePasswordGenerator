@@ -9,12 +9,13 @@
 
 import Controller.InitData as loadData
 import Controller.UserInteraction as uia
-
+import Database.DBMgt as db
 
 def main() -> None:
     # Entry point of the application
-    loadData.loadData()
-    print("The database is ready!")
+    #loadData.loadData()
+    #print("The database is ready!")
+    db.init_DB()
     uia.userLoop()
 
 

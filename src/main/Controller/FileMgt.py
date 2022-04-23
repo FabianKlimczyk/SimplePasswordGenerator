@@ -9,7 +9,9 @@ import os
                                 - getPath
                                 - getColumnId
 002     10-04-2022  FKL     Function getPath
-                                - add db path as option 4 
+                                - add db path as option 4
+003     23-04-2022  FKL     Function getColumnId
+                                - add login
 
 This module delivers all information regarding the entries file 
 '''
@@ -24,7 +26,7 @@ def getPath(pathType: int) -> str:
     path = os.environ['HOMEPATH'] + '\\SPArGEl'  # get home path
     fileName = 'entries.csv'
     dbname = 'entries.db'
-    if path == 4:
+    if pathType == 4:
         return path+"\\"+dbname
     elif pathType == 3:
         return path+"\\"+fileName
@@ -33,7 +35,7 @@ def getPath(pathType: int) -> str:
     elif pathType == 1:
         return fileName
     else:
-        raise Exception("type provided must be 1, 2 or 3 - input: " +str(pathType))
+        raise Exception("type provided must be 1, 2, 3, 4 - input: " +str(pathType))
 
 
 def getColumnId(columnName: str) -> int:
@@ -42,15 +44,17 @@ def getColumnId(columnName: str) -> int:
         return 0
     elif columnName == "name":
         return 1
-    elif columnName == "description":
+    elif columnName == "login":
         return 2
-    elif columnName == "cipher":
+    elif columnName == "description":
         return 3
-    elif columnName == "shift":
+    elif columnName == "cipher":
         return 4
-    elif columnName == "created_on":
+    elif columnName == "shift":
         return 5
-    elif columnName == "last_modified_on":
+    elif columnName == "created_on":
         return 6
+    elif columnName == "last_modified_on":
+        return 7
     else:
         return -1 # invalid column name

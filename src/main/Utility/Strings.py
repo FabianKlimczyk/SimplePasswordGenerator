@@ -13,11 +13,14 @@ File to store and get all strings for every available language
 
 # English strings
 db_connected_EN = "Connected to database"
+db_created_EN = "Database created"
+db_ready_EN = "Database is ready"
 
 # German strings
 db_connected_DE = "Verbindung zur Datenbank wurde hergestellt!"
+db_created_DE = "Datenbank erstellt"
+db_ready_DE = "Datenbank ist bereit"
 
-
-def getString(countryCode: str, stringName: str) -> str:
+def getString(stringName: str, countryCode: str) -> str:
      # return the string of the corresponding stringName
-     return globals().get(stringName+"_"+countryCode)
+     return globals().get(stringName+"_"+countryCode.upper())
