@@ -1,12 +1,9 @@
 # SimplePasswordGenerator
 Desktop Password Generator (in progress)
 
-A small passowrd generator that lets you create passwords and store them in a local database. 
-A simple GUI created with TKInter will help to use the script.
+A small text based passowrd generator that lets you create passwords and store them in a local database. 
 
-Next TODOs
-1) write data to the database
-2) read data from the database
-3) create database and connect
-4) create gui
-5) create testcases
+TODOs
+  1) handle user inputs for smooth flow
+  2) create all strings
+  3) create testcases
