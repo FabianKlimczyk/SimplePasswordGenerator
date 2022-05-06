@@ -36,25 +36,3 @@ def getPath(pathType: int) -> str:
         return fileName
     else:
         raise Exception("type provided must be 1, 2, 3, 4 - input: " +str(pathType))
-
-
-def getColumnId(columnName: str) -> int:
-    columnName = columnName.lower()
-    if columnName == "id":
-        return 0
-    elif columnName == "name":
-        return 1
-    elif columnName == "login":
-        return 2
-    elif columnName == "description":
-        return 3
-    elif columnName == "cipher":
-        return 4
-    elif columnName == "shift":
-        return 5
-    elif columnName == "created_on":
-        return 6
-    elif columnName == "last_modified_on":
-        return 7
-    else:
-        return -1 # invalid column name

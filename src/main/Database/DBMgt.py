@@ -12,7 +12,7 @@
                                 - deleteEntry
                                 - getEntry
 
-This module manages the database connection
+This module manages the database connection and access
 '''
 
 import sqlite3 as sql3
@@ -77,20 +77,29 @@ def deleteEntryById(conn: sql3.Connection, id: str) -> bool:
     conn.commit()
     return True
 
-
-def getEntry(conn: sql3.Connection, where: str, value: str) -> any:
-    #TODO Ausgabe des Shifts "verpixeln"
+def getEntries(conn: sql3.Connection):
     crsr = conn.cursor()
     qry_select_entry = '''
-    SELECT * 
-    FROM Entries'''
-    if where != "" and value != "":
+        SELECT * 
+        FROM Entries'''
+    data = crsr.execute(qry_select_entry)
+    return data
+
+def getEntry(conn: sql3.Connection, where: str, value: str) -> any:
+    crsr = conn.cursor()
+    data = ""
+    if where == "" or value == "":
+        return getEntries(conn)
+    else:
         where += "= ?"
         qry_select_entry = f'''
                 SELECT * 
                 FROM Entries
                 WHERE {where}'''
-    data = crsr.execute(qry_select_entry, value)
+    try:
+        data = crsr.execute(qry_select_entry, [value])
+    except sql3.OperationalError as e:
+        print(e)
     return data
 
 def getDatabaseConnection() -> sql3.Connection:

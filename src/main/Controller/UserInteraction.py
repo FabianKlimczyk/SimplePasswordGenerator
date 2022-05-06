@@ -6,19 +6,23 @@
                             Add functions:
                             - createEntry
                             - userLoop
-002     15-04-22    FKL     function:
-                                - createEntry - get necessary information for creation
+002     15-04-22    FKL     function createEntry
+                                - get necessary information for creation
 003     18-04-22    FKL     add function:
                                 - updateEntry
+004     06-05-22    FKL     function createEntry
+                                - entry id always 0 because of autoincrement
+                            function userLoop
+                                - implement filter for loading data
 
 '''
 
-from src.main.Controller.ReadData import getNumberOfLines
 from src.main.Controller.GeneratePassword import generatePassword as gnrt_pw
 from src.main.Controller.DeEnCoding import encode as encode
-from src.main.Controller.WriteData import writeNewData, writeUpdateByPos
 import src.main.Model.Entry as Entry
 import src.main.Database.DBMgt as db
+import src.main.Database.DataMgt as datamgt
+from src.main.Utility.Strings import getString
 import sqlite3 as sql3
 import time
 import random
@@ -32,30 +36,20 @@ def createEntry() -> Entry.Entry:
     """
 
     # user input
-    name = input("Please enter a name!: ")
-    login = input("Please enter your login")
-    descr = input("Please enter a description!: ")
-    pwLength = int(input("Please enter the password length!: "))
-    inclUpperCase = input("Do you want to include upper case letters? y/n ").lower() == "y"
-    inclNumbers = input("Do you want to include numbers? y/n ").lower() == "y"
-    inclSpecialCharacters = input("Do you want to include special letters? y/n ").lower() == "y"
+    name = input(getString("inp_name","EN")+"\n").strip()
+    login = input(getString("inp_login","EN")+"\n").strip()
+    descr = input(getString("inp_descr","EN")+"\n").strip()
+    pwLength = int(input(getString("inp_pw_length","EN")+"\n").strip())
+    inclUpperCase = input(getString("inp_incl_upper_case","EN")+"\n").lower().strip() == "y"
+    inclNumbers = input(getString("inp_incl_numb","EN")+"\n").lower().strip() == "y"
+    inclSpecialCharacters = input(getString("inp_incl_spec_char","EN")+"\n").lower().strip() == "y"
 
-    id = getNumberOfLines()+1
     shift = random.randint(1,76)
     # encode created password
     enc_pw = encode(
             gnrt_pw(pwLength,inclUpperCase,inclNumbers,inclSpecialCharacters),shift
         )
-    return Entry.Entry(id,name,login,descr,enc_pw,shift,time.time(),time.time())
-
-
-def updateEntry() -> bool:
-    #TODO Funktion überflüssig
-    id = int(input("In which row do you want to change a field? Please enter the id: ").lower())
-    name = input("Which field do you want to chagne? ").lower()
-    update = input("What is your new updatedText? ")
-    return writeUpdateByPos(id,name,update)
-
+    return Entry.Entry(0,name,login,descr,enc_pw,shift,time.time(),time.time())
 
 def userLoop(conn: sql3.Connection) -> None:
     while action := input("What do you want to do? (c)ontinue or (q)uit? Please insert c or q").lower() != "q":
@@ -69,14 +63,21 @@ def userLoop(conn: sql3.Connection) -> None:
         elif inp == "l":
             # load and show existent entry
             print("Loading...")
-            #TODO abfrgae ob bestimmter record angezeigt werden soll
-            data = db.getEntry(conn, "","")
-            for i in data:
-                print(i)
+            showAll = input("Do you want to see all entries? y/n\n").lower()
+            if showAll == "y":
+                datamgt.showData(conn, '','')
+            else:
+                getPw = input("Get password? y/n\n").lower()
+                column = input("Which colum do you want to filter?\n")
+                filterValue = input("Please enter the filter value\n")
+                if getPw == "y":
+                    datamgt.getPassword(conn,column,filterValue)
+                else:
+                    datamgt.showData(conn, column, filterValue)
         elif inp == "u":
             print("Updating...")
             name = input("Which record do you want to change? Please enter the name!: ")
-            column = input("Which column do you want to change?: ") + "= ?"
+            column = f" last_modified_on = {time.time()}, "+input("Which column do you want to change?: ") + "= ?"
             newValue = input("Please enter a new value: ")
             if db.updateEntry(conn, name,column,newValue):
                 print("The entry was updated")
